@@ -10,4 +10,29 @@ I'll configure a job to automatically deploy source codes changes from **Git** t
 
  ![](./Images/images9/Proj-8%20Archi.PNG)
 
- 
+### Step 1 – Install Jenkins server
+---
+- I create an AWS EC2 server based on **Ubuntu Server 20.04 LTS** and name it **"Jenkins"**
+
+- Install **JDK**
+
+  `sudo apt update`
+
+  `sudo apt install default-jdk-headless`
+
+- Install Jenkins 
+  ```
+  wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+  sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+  
+  sudo apt update
+  
+  sudo apt-get install jenkins
+  ```
+
+
+
+
+
+
