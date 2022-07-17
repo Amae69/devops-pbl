@@ -167,7 +167,7 @@ database to do anything only from the webservers subnet cidr
       sudo mysql
 
       CREATE DATABASE tooling;
-      CREATE USER `webaccess`@`%` Identified_with_mysql_Native_password BY 'password';
+      CREATE USER 'webaccess'@'%' Identified_with_mysql_Native_password BY 'password';
       GRANT ALL ON tooling.* TO 'webaccess'@'%';
       FLUSH PRIVILEGES;
 
