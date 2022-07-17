@@ -194,11 +194,12 @@ database to do anything only from the webservers subnet cidr
     `sudo yum install nfs-utils nfs4-acl-tools -y`
 
 2. Mount **/var/www/** and target the **NFS server’s** export for apps
-
+      ```
       sudo mkdir /var/www
+
       sudo mount -t nfs -o rw,nosuid 
       <NFS-Server-Private-IP-Address>:/mnt/apps /var/www      
-
+      ```
 3. Verify that NFS was mounted successfully by running `df -h`
 
    ![df -h wb sv](https://user-images.githubusercontent.com/107736487/178467923-c6571ccb-c314-46d4-9aa6-86634b6c085c.PNG)
