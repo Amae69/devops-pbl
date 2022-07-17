@@ -76,7 +76,7 @@ The following servers has been installed and configured within Project-7 (https:
 
   `http://http://13.40.226.47/index.php`
 
-  ![](./images8/lb%20public%20IP.PNG)
+  ![](./Images/images8/lb%20public%20IP.PNG)
 
 ### **End of Project...**  
   
