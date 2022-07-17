@@ -167,7 +167,7 @@ database to do anything only from the webservers subnet cidr
       sudo mysql
 
       CREATE DATABASE tooling;
-      CREATE USER `webaccess`@`%` Identified_with_mysql_Native_password BY 'password';
+      CREATE USER 'webaccess'@'%' Identified_with_mysql_Native_password BY 'password';
       GRANT ALL ON tooling.* TO 'webaccess'@'%';
       FLUSH PRIVILEGES;
 
@@ -183,6 +183,7 @@ database to do anything only from the webservers subnet cidr
   `sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf`
 
 - Restart mysql
+
   `sudo systemctl restart mysql`    
 
 ### **Step 3 — Prepare the Web Servers**
@@ -197,8 +198,7 @@ database to do anything only from the webservers subnet cidr
       ```
       sudo mkdir /var/www
 
-      sudo mount -t nfs -o rw,nosuid 
-      <NFS-Server-Private-IP-Address>:/mnt/apps /var/www      
+      sudo mount -t nfs -o rw,nosuid<NFS-Server-Private-IP-Address>:/mnt/apps /var/www      
       ```
 3. Verify that NFS was mounted successfully by running `df -h`
 
