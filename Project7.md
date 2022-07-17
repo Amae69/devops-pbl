@@ -183,6 +183,7 @@ database to do anything only from the webservers subnet cidr
   `sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf`
 
 - Restart mysql
+
   `sudo systemctl restart mysql`    
 
 ### **Step 3 — Prepare the Web Servers**
