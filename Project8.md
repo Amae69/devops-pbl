@@ -14,7 +14,7 @@ The following servers has been installed and configured within Project-7 (https:
 2. One MySQL **DB Server** (based on Ubuntu 20.04)
 3. One RHEL8 **NFS server**
 
-![](./images8/instances.PNG)
+![](./Images/images8/instances.PNG)
 
 ### Configure Apache As A Load Balancer
 ---
@@ -44,7 +44,7 @@ The following servers has been installed and configured within Project-7 (https:
 
   `sudo systemctl status apache2`
 
-  ![](./Apache%20status.PNG)
+   ![](./Images/images8/Apache%20status.PNG)
 
 - **Configure load balancing** 
    ```
@@ -64,7 +64,7 @@ The following servers has been installed and configured within Project-7 (https:
         ProxyPass / balancer://mycluster/
         ProxyPassReverse / balancer://mycluster/
 
-![](./images8/conf%20loadbalancer.PNG)
+![](./Images/images8/conf%20loadbalancer.PNG)
 
 - **Restart apache server**
 
