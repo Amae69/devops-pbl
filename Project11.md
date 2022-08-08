@@ -17,7 +17,7 @@ In this Project, I'll write an **ansible** scripts to simulate the use of a **Ju
 
 1. Update Name tag on my **Jenkins** EC2 Instance to **Jenkins-Ansible**. I will use this server to run **playbooks**.
 
-   ![]()
+   ![](./Images/images11/instances.PNG)
 
 2. In my **GitHub** account I'll create a new repository and name it **ansible-config-mgt**.
 
@@ -180,6 +180,9 @@ NOTE: My **Jenkins-Ansible** server which is now acting as my **Bastion Host** w
           name: wireshark
           state: latest
 
+
+  # ------------------------------------------        
+
   - name: update LB and db servers
     hosts: lb, db
     remote_user: ubuntu
@@ -194,6 +197,7 @@ NOTE: My **Jenkins-Ansible** server which is now acting as my **Bastion Host** w
         apt:
           name: wireshark
           state: latest 
+
   ```
 
   This **playbook** is divided into two parts, each of them is intended to perform the same task: install **wireshark** utility (or make sure it is updated to the latest version) on my **RHEL 8** and **Ubuntu** servers. 
@@ -243,10 +247,107 @@ code changes will now appear in **master/main** branch
 ---
 Now, it is time to execute **ansible-playbook** command and verify if my playbook actually works.
 
-Now, i'll ensure i have **ssh** into my **Jenkins-Ansible server**
+Now, i'll ensure i have **ssh** into my **Jenkins-Ansible server** remotely from **VScode**
 
 Since i already has **development pack** extension installed in my **VScode** which has **remote ssh**
 
-At bottom left. click on Open a **remote window** > **connect to Host** > **jenkins-ansible** > **linux**
+At bottom left. click on Open a **remote window** > **connect to Host** > `ssh ubuntu@<public-IP>` > **click linux** which opens a new **VScode** window
 
-![](./Images/images11/ssh%20to%20ansible.PNG)
+![](./Images/images11/ssh%20to%20ansible%201.PNG)
+
+**NOTE :** I was getting error trying to connect remotely so i check the **ssh config**file in my **VScode** ensure to update the file with code below if not present. Then try to connect again
+
+```
+Host jenkins-ansible
+    HostName <Public-IP>
+    User ubuntu
+    IdentityFile /Users/USER/Downloads/kriz-ec2.pem
+    ForwardAgent yes
+    ControlPath /tmp/ansible-ssh-%h-%p-%r
+    ControlMaster auto
+    ControlPersist 10m
+```
+![](./Images/images11/ssh%20config.PNG)
+
+After updating the **ssh configuration** and try to connect remotely again to my server, it was now successful.
+
+But i was unable to run **ansible playbook** on the host with permission error
+
+![](./Images/images11/permission%20error%20to%20run%20playbook.PNG)
+
+On my main **VScode** window where i have my playbook and inventory folder. I added my identity key again and ssh to my jenkins-ansible server using ssh agent `ssh -A ubuntu@<public-IP>` 
+
+![](./Images/images11/ssh%20Agent%20on%20vs%201.PNG)
+
+I ran my playbook by pasting the link below on my **anisble server** which already has my identity key(.pem) which is unique to all my servers and will enable my **jenkins-ansible** server to ssh into all my server that my **playbook** will perform a **task** on:
+
+`ansible-playbook -i /var/lib/jenkins/jobs/ansible/builds/<builds-number>/archive/inventory/dev.yml /var/lib/jenkins/jobs/ansible/builds/<build-number>/archive/playbooks/common.yml`
+
+Playbook was successful.
+
+![](./Images/images11/playbook%20success.PNG)
+
+### **Confirm That Ansible Playbook has perform its task on each of the servers**
+---
+- I'll go to each of the **servers** and check if **wireshark** has been installed by running **which wireshark** or **wireshark --version**
+    
+    - Go to **web server** and confirm **wireshark** is installed
+
+      ![](./Images/images11/web%20server%20wireshark.PNG)
+
+    - Go to **db server** and confirm **wireshark** is installed 
+
+      ![](./Images/images11/db%20server%20wireshark.PNG) 
+
+### **Update my Playbook with another Task**
+---
+I'll update my playbook with following tasks:
+
+ 1. Create a directory **"kris_folder"** and a file **"ansible.txt"** inside it
+
+ 2. Change **timezone** on all servers
+ ```
+- name: create directory, file and set timezone on all servers
+  hosts: webservers, nfs, lb, db
+  become: yes
+  tasks:
+
+    - name: create a directory
+      file:
+        path: /home/kris_folder
+        state: directory
+
+    - name: create a file
+      file:
+        path: /home/kris_folder/ansible.txt
+        state: touch
+
+    - name: set timezone
+      timezone:
+        name: Africa/Lagos
+```        
+![](./Images/images11/add%20new%20task.PNG)
+
+After updating my **ansible playbook** with some new **Ansible tasks** i'll go through the full **checkout** -> **change codes** -> **commit** -> **PR** -> **merge** -> **build** -> **ansible-playbook**
+ 
+ On Branch **prj-11**
+
+ `git status` > `git pull` > `git add .` > `git commit` > `git push origin prj-11`
+
+ ![](./Images/images11/new%20task%20push.PNG)
+
+- Now i'll run my ansible playbook on my jenkins-ansible server with the latest builds that has been created automatically in jenkins.
+
+`ansible-playbook -i /var/lib/jenkins/jobs/ansible/builds/17/archive/inventory/dev.yml /var/lib/jenkins/jobs/ansible/builds/17/archive/playbooks/common.yml`
+
+![](./Images/images11/play%20book%20run%202.PNG)
+
+Goto my servers to confirm that the task in play book has been created in each of the servers.
+
+![](./Images/images11/db%20serv%20new%20task.PNG)
+
+![](./Images/images11/wb%20sev%20new%20task.PNG)
+
+
+### **END OF PROJECT.......**
+
