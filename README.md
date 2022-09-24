@@ -6,7 +6,7 @@ This repository contains most of the real-life projects I carried out during my 
 ## **Table Of Contents**
 ---
 
-**Project 1:** SETTING UP A LAMP STACK WEB SERVER IN THE AWS CLOUD
+**Project 1:** [SETTING UP A LAMP STACK WEB SERVER IN THE AWS CLOUD](https://github.com/Amae69/devops-pbl/blob/5f11447cb0d8b07432700732b77ac6e871b12378/Project1.md)
 
 **Project 2:** SETTING UP A LEMP STACK WEB SERVER ON AWS CLOUD
 
