@@ -1,4 +1,4 @@
-# **Kris DEVOPS PROJECTS**
+# **KRIS DEVOPS PROJECTS**
 ---
 
 This repository contains most of the real-life projects I carried out during my DevOps career journey
@@ -28,6 +28,6 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 11:** [AUTOMATING PROJECTS WITH ANSIBLE CONFIGURATION MANAGEMENT](https://github.com/Amae69/devops-pbl/blob/e977ef10fa38bd9b6b28f8297f4a31c801cb4100/Project11.md)
 
-**Project 12:** ANSIBLE REFACTORING AND STATIC ASSIGNMENT (IMPORTS AND ROLES)
+**Project 12:** [ANSIBLE REFACTORING AND STATIC ASSIGNMENT (IMPORTS AND ROLES)](https://github.com/Amae69/devops-pbl/blob/dca2ab2ee1b72941c6a2950f3a6cf6db241a6047/Project12.md)
 
 **Project 13:** INTRODUCING ANSIBLE DYNAMIC ASSIGNMENTS(INCLUDE) AND COMMUNITY ROLES
