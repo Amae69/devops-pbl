@@ -18,7 +18,7 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 6:** [IMPLEMENTING LOGICAL VOLUME MANAGEMENT AND WORDPRESS WEB SOLUTION PROJECT](https://github.com/Amae69/devops-pbl/blob/1a70594a7cc5479ef54a8378de21f898436039cf/Project6.md)
 
-**Project 7:** IMPLEMENTATION OF WEB APPLICATION ARCHITECTURE WITH A SINGLE DATABASE AND NFS SERVER
+**Project 7:** [IMPLEMENTATION OF WEB APPLICATION ARCHITECTURE WITH A SINGLE DATABASE AND NFS SERVER](https://github.com/Amae69/devops-pbl/blob/3b1deb5e885d96bfa2bc0e4c448bbf671448f82d/Project7.md)
 
 **Project 8:** LOAD BALANCER SOLUTION WITH APACHE
 
