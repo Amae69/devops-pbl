@@ -1,4 +1,4 @@
-# **DEVOPS PROJECTS**
+# **Kris DEVOPS PROJECTS**
 ---
 
 This repository contains most of the real-life projects I carried out during my DevOps career journey
@@ -20,7 +20,7 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 7:** [IMPLEMENTATION OF WEB APPLICATION ARCHITECTURE WITH A SINGLE DATABASE AND NFS SERVER](https://github.com/Amae69/devops-pbl/blob/3b1deb5e885d96bfa2bc0e4c448bbf671448f82d/Project7.md)
 
-**Project 8:** LOAD BALANCER SOLUTION WITH APACHE
+**Project 8:** [LOAD BALANCER SOLUTION WITH APACHE](https://github.com/Amae69/devops-pbl/blob/9579d77e5e2d498ef73c83016a6cca5fd65a3c89/Project8.md)
 
 **Project 9:** WORKING WITH JENKINS - CI/CD PROJECT
 
