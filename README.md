@@ -24,7 +24,7 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 9:** [WORKING WITH JENKINS - CI/CD PROJECT](https://github.com/Amae69/devops-pbl/blob/c525a08aa44a328c627bd3308e735b0d613adcfc/Project9.md)
 
-**Project 10:** LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS
+**Project 10:** [LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS](https://github.com/Amae69/devops-pbl/blob/2291b9b7157726a3c1224acc557923e553069a13/Project10.md)
 
 **Project 11:** AUTOMATING PROJECTS WITH ANSIBLE CONFIGURATION MANAGEMENT
 
