@@ -110,21 +110,24 @@ I'll rename the folder to **mysql**
 
 ![](./Images/images13/rename%20role.PNG)
 
-I'll Read the **`README.md` file,** to know how to edit **roles configuration** to use correct **credentials** for **MySQL** required for the **tooling** website.
+### **Edit mysql role to work with my desired configuration setup.**
+---
 
-I'll go to `defaults/main.yml` in **mysql role** and edit **database (tooling)**, **user (webaccess)** and **host**
+- I'll Read the **`README.md` file,** to know how to edit **roles configuration** to use correct **credentials** for **MySQL** required for the **tooling** website.
 
-![](./Images/images13/update%20mysql%20role.PNG)
+- I'll go to `defaults/main.yml` in **mysql role** and edit **database (tooling)**, **user (webaccess)** and **host**
 
-Now it is time to upload the changes into my GitHub:
+  ![](./Images/images13/update%20mysql%20role.PNG)
 
-`git add .`
+  Now it is time to upload the changes into my GitHub:
 
-`git commit -m 'update'`
+  `git add .`
 
-`git push origin dynamic-assignmnets`
+  `git commit -m 'update'`
 
-Now i'll create a **Pull** Request and merge it to **main** branch on GitHub
+  `git push origin dynamic-assignmnets`
+
+  Now i'll create a **Pull** Request and merge it to **main** branch on GitHub
 
 ### **LOAD BALANCER ROLES**
 ---
@@ -146,5 +149,101 @@ I'll rename the folder to **nginx** and **apache** respectively
 
 ![](./Images/images13/rename%20nginx%20and%20apache%20role.PNG)
 
+### **Edit the Nginx role to work with my desired configuration**
+---
+
+I'll Read the **`README.md` file,** to know how to edit **Nginx roles configuration**.
+
+- I'll go to `defaults/main.yml` in **Nginx role** and input my uat host: 
+
+  **nginx role > defaults > main.yml**
+
+   ![](./Images/images13/update%20nginx%20role%201.1.PNG)
+
+   ![](./Images/images13/update%20nginx%20role%202%20uncomment.PNG)
+
+- **update nginx role > task > main.yml**
+
+  ![](./Images/images13/update%20nginx%20role%20taskmainyml%201.PNG)
+
+  ![](./Images/images13/updt%20nginx%20role%202.PNG)
+
+  ![](./Images/images13/updt%20ngnx%20task%20mainyml.PNG)
+
+- **update nginx role > task > Setup-Redhat.yml**  
+
+   ![](./Images/images13/nginx%20role%20task%20setup%20redhat.PNG)
+
+### **Edit the Apache role to work with my desired configuration**
+---
+I'll Read the **`README.md` file,** to know how to edit **Apache roles configuration**
+
+- I'll go to **defaults > main.yml** in **Apache role** and input the following:
+  ```
+  # webservers
+  loadbalancer_name: "myapp1"
+  web1: "webserver Private-public-IP"
+  web2: "webserver Private-public-IP"
+  ```
+  ![](./Images/images13/role%20apache%20defaults%20mainyml%203.PNG)
+
+  ![](./Images/images13/role%20apache%20defaults%20mainyml%201.PNG)
+
+- **update Apache role > task > Setup-Redhat.yml** 
+
+  ![](./Images/images13/apache%20role%20task%20setup%20redhat.PNG)
 
 
+**Important Hints:**
+
+Since i cannot use both **Nginx** and **Apache** load balancer, I'll need to add a **condition** to enable either one – this is where i can make use of **variables**.
+
+- Declare a variable in **defaults/main.yml** file inside the **Nginx** and **Apache** roles. Name each variables **enable_nginx_lb** and **enable_apache_lb** respectively.
+
+- Set both values to false like this: `enable_nginx_lb: false` and `enable_apache_lb: false`.
+
+- Declare another variable in both roles **load_balancer_is_required** and set its value to **false** as well
+
+  ![](./Images/images13/var%20dec%20in%20nginx.PNG)
+
+  ![](./Images/images13/var%20dec%20in%20apache.PNG)
+
+- Update both assignment and site.yml files respectively
+
+  firstly i will create a file named **loadbalancers.yml** in **static assignment** folder.
+
+  Paste the code below in **loadbalancers.yml** file
+  ```
+  --- 
+  - hosts: lb
+    roles:
+      - { role: nginx, when: enable_nginx_lb and load_balancer_is_required }
+      - { role: apache, when: enable_apache_lb and load_balancer_is_required }
+  ```
+  ![](./Images/images13/updt%20loadbalanceryml%20file.PNG)
+
+  Paste the code below in **site.yml file**  
+  ```
+  - name: Loadbalancers assignment
+    hosts: lb
+      - import_playbook: ../static-assignments/loadbalancers.yml
+        when: load_balancer_is_required
+  ```      
+   ![](./Images/images13/updt%20siteyml%20lb.PNG)
+
+- Now i'll make use of **env-vars\uat.yml** file to define which **loadbalancer** to use in **UAT** environment by setting respective environmental variable to **true**.
+
+  I will activate **load balancer**, and enable **nginx** by setting these in the respective environment’s **env-vars** file.
+  ```
+  enable_nginx_lb: true
+  load_balancer_is_required: true
+  ```
+  ![](./Images/images13/env-vars%20uatyml.PNG)
+
+- Now i'll run the ansible playbook
+
+  `ansible-playbook -i inventory/uat.yml playbooks/site.yml`
+
+  ![](./Images/images13/ansible%20playbook.PNG)
+
+### END OF PROJECT...
