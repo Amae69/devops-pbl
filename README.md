@@ -26,7 +26,7 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 10:** [LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS](https://github.com/Amae69/devops-pbl/blob/2291b9b7157726a3c1224acc557923e553069a13/Project10.md)
 
-**Project 11:** AUTOMATING PROJECTS WITH ANSIBLE CONFIGURATION MANAGEMENT
+**Project 11:** [AUTOMATING PROJECTS WITH ANSIBLE CONFIGURATION MANAGEMENT](https://github.com/Amae69/devops-pbl/blob/e977ef10fa38bd9b6b28f8297f4a31c801cb4100/Project11.md)
 
 **Project 12:** ANSIBLE REFACTORING AND STATIC ASSIGNMENT (IMPORTS AND ROLES)
 
