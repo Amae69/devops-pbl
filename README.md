@@ -22,7 +22,7 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 8:** [LOAD BALANCER SOLUTION WITH APACHE](https://github.com/Amae69/devops-pbl/blob/9579d77e5e2d498ef73c83016a6cca5fd65a3c89/Project8.md)
 
-**Project 9:** WORKING WITH JENKINS - CI/CD PROJECT
+**Project 9:** [WORKING WITH JENKINS - CI/CD PROJECT](https://github.com/Amae69/devops-pbl/blob/c525a08aa44a328c627bd3308e735b0d613adcfc/Project9.md)
 
 **Project 10:** LOAD BALANCER SOLUTION WITH NGINX AND SSL/TLS
 
