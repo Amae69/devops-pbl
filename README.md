@@ -30,4 +30,4 @@ This repository contains most of the real-life projects I carried out during my 
 
 **Project 12:** [ANSIBLE REFACTORING AND STATIC ASSIGNMENT (IMPORTS AND ROLES)](https://github.com/Amae69/devops-pbl/blob/dca2ab2ee1b72941c6a2950f3a6cf6db241a6047/Project12.md)
 
-**Project 13:** INTRODUCING ANSIBLE DYNAMIC ASSIGNMENTS(INCLUDE) AND COMMUNITY ROLES
+**Project 13:** [INTRODUCING ANSIBLE DYNAMIC ASSIGNMENTS(INCLUDE) AND COMMUNITY ROLES](https://github.com/Amae69/devops-pbl/blob/b7228a728e08f5ab4d5a982831a8e54731097e5c/Project13.md)
