@@ -1412,11 +1412,158 @@ sudo systemctl status kube-scheduler
 ---
 1. To get the cluster details run: `kubectl cluster-info  --kubeconfig admin.kubeconfig`
 
-2. To get the current namespaces: `kubectl get namespaces --kubeconfig admin.kubeconfig`
+- Encounter certificate verification issue
+
+  ![](./Images/images21/clust%20inf%20issue.PNG)
+
+- I Pass this flag to skip the cert verification: `kubectl cluster-info  --kubeconfig admin.kubeconfig --insecure-skip-tls-verify`
+
+2. To get the current namespaces: `kubectl get namespaces --kubeconfig admin.kubeconfig --insecure-skip-tls-verify`
+
+   ![](./Images/images21/pass%20flag%20skip%20tls%20verify.PNG)
 
 3. To reach the Kubernetes API Server publicly: `curl --cacert /var/lib/kubernetes/ca.pem https://$INTERNAL_IP:6443/version`
 
-4. To get the status of each component: `kubectl get componentstatuses --kubeconfig admin.kubeconfig`
+4. To get the status of each component: `kubectl get componentstatuses --kubeconfig admin.kubeconfig --insecure-skip-tls-verify`
+
+   ![](./Images/images21/get%20component%20status.PNG)
+
+### **Configuring Role Based Access Control**
+--- 
+- Configuring Role Based Access Control (RBAC) on one of the **controller(master) nodes** so that the **api-server** has necessary authorization for the **kubelet**.
+
+**Creating the ClusterRole:**
+```
+cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: system:kube-apiserver-to-kubelet
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes/proxy
+      - nodes/stats
+      - nodes/log
+      - nodes/spec
+      - nodes/metrics
+    verbs:
+      - "*"
+EOF
+```
+![](./Images/images21/clust%20role%20on%201%20master%20node.PNG)
+
+- Creating the **ClusterRoleBinding** to bind the **kubernetes user** with the role created above
+```
+cat <<EOF | kubectl --kubeconfig admin.kubeconfig  apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:kube-apiserver
+  namespace: ""
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:kube-apiserver-to-kubelet
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: kubernetes
+EOF
+```
+![](./Images/images21/clusterrole%20binding.PNG)
+
+### **Configuring the Kubernetes Worker nodes**
+---
+Before we begin to **bootstrap** the worker nodes, it is important to understand that the **K8s API Server** authenticates to the **kubelet** as the **kubernetes user** using the same **kubernetes.pem certificate**.
+
+I need to configure Role Based Access **(RBAC)** for **Kubelet Authorization**:
+
+- The RBAC permissions is configured to allow the **Kubernetes API Server** to access the **Kubelet API** on each **worker nodes**. Creating the system:kube-apiserver-to-kubelet ClusterRole with permissions to access the Kubelet API and perform most common tasks associated with managing pods on the worker nodes:
+```
+cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: system:kube-apiserver-to-kubelet
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes/proxy
+      - nodes/stats
+      - nodes/log
+      - nodes/spec
+      - nodes/metrics
+    verbs:
+      - "*"
+EOF
+```
+![](./Images/images21/RBAC%20permission.PNG)
+
+- Bind the **system:kube-apiserver-to-kubelet** ClusterRole to the **kubernetes** user so that API server can authenticate successfully to the **kubelets** on the worker nodes:
+```
+cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:kube-apiserver
+  namespace: ""
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:kube-apiserver-to-kubelet
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: kubernetes
+EOF
+```
+![](./Images/images21/bind%20to%20k8s%202.PNG)
+
+### **Bootstraping components on the worker nodes**
+---
+The following components will be installed on each node:
+
+- kubelet
+- kube-proxy
+- Containerd or Docker
+- Networking plugins
+
+1. SSH into the worker nodes
+  
+   - Worker-1
+     ```
+     worker_1_ip=$(aws ec2 describe-instances \
+     --filters "Name=tag:Name,Values=${NAME}-worker-0" \
+     --output text --query 'Reservations[].Instances[].PublicIpAddress')
+     ssh -i k8s-cluster-from-ground-up.id_rsa ubuntu@${worker_1_ip}
+     ```
+   - Worker-2
+     ```
+     worker_2_ip=$(aws ec2 describe-instances \
+     --filters "Name=tag:Name,Values=${NAME}-worker-1" \
+     --output text --query 'Reservations[].Instances[].PublicIpAddress')
+     ssh -i k8s-cluster-from-ground-up.id_rsa ubuntu@${worker_2_ip}  
+     ```
+   - Worker-3
+     ```
+     worker_3_ip=$(aws ec2 describe-instances \
+     --filters "Name=tag:Name,Values=${NAME}-worker-2" \
+     --output text --query 'Reservations[].Instances[].PublicIpAddress')
+     ssh -i k8s-cluster-from-ground-up.id_rsa ubuntu@${worker_3_ip} 
+     ```
+2. Install OS dependencies:
+```      
 
 
 
